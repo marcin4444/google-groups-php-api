@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * @author Jeremy Blanchard (auzigog) <auzigog@gmail.com>
+ * @author Marcin Mieteń <marcin4444@gmail.com>
+ *
+ */
 class TestOfGoogleGroupsAPI extends WebTestCase {
   var $gg;
   var $last_email_added;
@@ -49,19 +53,19 @@ class TestOfGoogleGroupsAPI extends WebTestCase {
 
     $this->_fixBrowser();
 
-    $page = $this->get($this->group_url .'/manage_members_add');
+    $page = $this->get($this->group_url .'/members_invite');
     //echo $page; die('here');
-    $this->assertText('Please use this feature carefully', 'Succesfully logged in with owner or manager access.');
+    $this->assertText('Enter email addresses of people to invite', 'Succesfully logged in with owner or manager access.');
   }
 
-  function testSubscribeDirectly() {
-    $this->gg->memberSubscribeDirectly($this->random_email);
+  function testInvite() {
+    $this->gg->memberInvite($this->random_email);
 
     $this->_fixBrowser();
 
-    $page = $this->get($this->group_url .'/manage_members');
+    $page = $this->get($this->group_url .'/manage_members?view=invite');
     //echo $page; die();
-    $this->assertText($this->random_email, 'Member successfully added! Email: '. $this->random_email);
+    $this->assertText($this->random_email, 'Member successfully invited! Email: '. $this->random_email);
   }
 
   function testUnsubscribe() {

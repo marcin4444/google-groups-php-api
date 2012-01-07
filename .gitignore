@@ -4,3 +4,7 @@ Icon?
 Thumbs.db
 *.kpf
 dev/
+.buildpath
+.project
+.settings/
+

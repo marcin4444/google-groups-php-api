@@ -1,6 +1,7 @@
 <?php
 /**
  * @author Jeremy Blanchard (auzigog) <auzigog@gmail.com>
+ * @author Marcin Mieteń <marcin4444@gmail.com>
  * @version dev1
  *
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License, version 2
@@ -77,23 +78,21 @@ class GoogleGroupsAPI {
   }
 
   /**
-   * Force user(s) to become a member of a group. Equivalent to visiting the
-   * "Add members directly" page. The user will recieve an email notifying
-   * them of the addition.
+   * Invite users to be a member of group. Invited users have to accept invitation.
    *
-   * @param $emails Email addresses of the members to add. Formatted in a
+   * @param $emails Email addresses of the members to invite. Formatted in a
    *  comma-separated list.
    * @param $welcome_message The message to include in the "welcome message"
    *  email that is sent to the member. This must be of a certain length. I
    *  think it's around 5 words or 25 characters. Place %s in the string
    *  to have it automatically be replaced with the GROUP_SHORTNAME.
    */
-  function memberSubscribeDirectly($emails, $welcome_message = NULL) {
+  function memberInvite($emails, $welcome_message = NULL) {
     // @todo Add param to specify the subscription type (no email, direct, daily summary, etc)
     // @todo Set up a system for throttling the additions to 10 emails per request.
     // Get the "Add members directly" page
-    $add_page = $this->getGroupPage('manage_members_add');
-    //echo $add_page;die();
+    $add_page = $this->getGroupPage('members_invite');
+    //echo $add_page;
 
     // Prep the welcome message
     if ($welcome_message == NULL) {
@@ -105,8 +104,8 @@ class GoogleGroupsAPI {
     // Submit the form
     $this->browser->setField('members_new', $emails);
     $this->browser->setField('body', $welcome_message);
-    $add_member_result_page = $this->browser->clickSubmit('Add members');
-    //echo $add_member_result_page; die();
+    $add_member_result_page = $this->browser->clickSubmitById('subbtn');
+    //echo $add_member_result_page;
 
     // @todo Make this function return success/failure of each member. Probably
     //  return as two arrays. One for successes and one for failures.

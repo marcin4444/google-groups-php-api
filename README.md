@@ -14,7 +14,7 @@ Features
 --------
 Current features include:
 
-  * Add members to a group (using the "direct add" feature)
+  * Invite members to a group
   * Remove members from a group
   * Create a new group (and send the CAPTCHA through to your users)
 
